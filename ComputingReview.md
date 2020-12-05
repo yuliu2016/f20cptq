@@ -194,7 +194,7 @@ def estimate_area(func, low, high, num_rects):
 
 What is the best way to change this function, so that it estimates the area using left endpoints instead?
 
-**A.** Nothing. This implementation can already estimate using left endpoints.
+**A.** Nothing. This implementation can already estimate the area using left endpoints.
 **B.** Change `x = low + (i + 1) * delta_x` into `x = low + i * delta_x`
 **C.** Change `x = low + (i + 1) * delta_x` into `x = low + (i - 1) * delta_x`
 **D.** Change `for i in range(num_rects)` into `for i in range(1, num_rects + 1)`
@@ -239,39 +239,48 @@ def is_orbital_valid(N, L, ML, MS):
 
 This code works as expected, but is very verbose and can be simplified to a single `return` statement. Which of the following is the correct simplified expression that is equivalent to the above function?
 
-**A.** `return N >= 1 or 0 <= L < N or -L < ML < L or MS in [-0.5, 0.5]`
-**B.** `return N >= 1 and 0 <= L < N and -L < ML < L and MS == -0.5 or MS == 0.5`
-**C.** `return N >= 1 and 0 <= L < N and -L < ML < L and MS in [-0.5, 0.5]`
-**D.** `return N >= 1 and 0 <= L or N > L and ML > -L or ML < L and MS == -0.5 or MS == 0.5`
-**E.** `return not (N < 1 or L < 0 or L >= N or ML < -L or ML > L or MS in [-0.5, 1.5])`
+**A.**
 
-**F.** `return not (N < 1 or L < 0 or L >= N or ML < -L or ML > L and MS in [-0.5, 1.5])`
+```python
+return N >= 1 or 0 <= L < N or -L < ML < L or MS in [-0.5, 0.5]
+```
+
+**B.**
+
+```python
+return N >= 1 and 0 <= L < N and -L < ML < L and MS == -0.5 or MS == 0.5
+```
+
+**C.**
+
+```python
+return N >= 1 and 0 <= L < N and -L < ML < L and MS in [-0.5, 0.5]
+```
+
+**D.**
+
+```python
+return N >= 1 and 0 <= L or N > L and ML > -L or ML < L and MS == -0.5 or MS == 0.5
+```
+
+**E.**
+
+```python
+return not (N < 1 or L < 0 or L >= N or ML < -L or ML > L or MS in [-0.5, 0.5])
+```
+
+**F.**
+
+```python
+return not (N < 1 or L < 0 or L >= N or ML < -L or ML > L and MS in [-0.5, 0.5])
+```
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-**Question 6:** All sensors, including EMG sensors, vision sensors, and encoders (used to measure amount of rotation in robotic arms) have some sensor noise when used in real life that can mess up the measured values. To mitigate this, a rolling average can be used. Consider the following function that uses a global variable to keep track of the average measurement over the last 10 measurements.
+**Question 6:** All types of sensors, including EMG sensors, vision sensors, and encoders (used to measure amount of rotation in robotic arms) have some sensor noise when used in real life that can mess up the measured values. To mitigate this, a rolling average can be used. Consider the following function that uses a global variable to keep track of the average measurement over the last 10 measurements.
 
 ```python
 import time
@@ -311,7 +320,7 @@ def get_rolling_average(new_measurement):
     return sum(prev_measurements) / len(prev_measurements)
 ```
 
-Which of the following is the correct missing code?
+What is the correct missing code?
 
 **A.** `prev_measurements[len(prev_measurements) - 1] = new_measurement`
 
@@ -345,6 +354,106 @@ if len(prev_measurements) > 10:
 
 ```python
 prev_measurements.insert(0, new_measurement)
-if len(prev_measurements) >=:
+if len(prev_measurements) >= 10:
     prev_measurements.pop()
+```
+
+
+
+**Question 7**: Consider the following functions that uses Newton's Method for finding an x-intercept to a function.
+
+```python
+def get_next_guess(x, f, f_prime):
+    "Find the next guess at the root of the tangent line at (x,f(x))"
+    return x - eval(f) / eval(f_prime)
+
+THRESHOLD = 0.0001
+MAX_ITERATIONS = 30
+
+def newtons_method(f, f_prime, initial_guess):
+    # x_n is changed to iteratively make better guesses
+    x_n = initial_guess
+    
+    # Keep track of iterations to make sure the function 
+    # doesn't run forever if there is in fact not a root
+    iterations = 0
+    
+    # Missing code here
+
+    return x_n
+```
+
+What is a correct implementation of the missing code?
+
+**A.**
+
+```python
+while iterations < MAX_ITERATIONS:
+    x_n = get_next_guess(x_n, f, f_prime)
+    if x_n < THRESHOLD:
+        break
+    iterations += 1
+```
+
+**B.**
+
+```python
+while iterations < MAX_ITERATIONS:
+    prev_guess = x_n
+    x_n = get_next_guess(x_n, f, f_prime)
+    if abs(x_n - prev_guess) < THRESHOLD:
+        break
+    iterations += 1
+```
+
+**C.**
+
+```python
+prev_guess = x_n
+while abs(x_n - prev_guess) >= THRESHOLD:
+    prev_guess, x_n = x_n, get_next_guess(x_n, f, f_prime)
+    if iterations > MAX_ITERATIONS:
+        break
+    iterations += 1
+```
+
+**D.**
+
+```python
+for iterations in range(MAX_ITERATIONS):
+    prev_guess, x_n = x_n, get_next_guess(x_n, f, f_prime)
+    if abs(x_n - prev_guess) < THRESHOLD:
+        continue
+```
+
+**E.**
+
+```python
+prev_guess = x_n
+while abs(x_n - prev_guess) >= THRESHOLD:
+    prev_guess = x_n
+    x_n = get_next_guess(x_n, f, f_prime)
+    if iterations > MAX_ITERATIONS:
+        break
+    iterations += 1
+```
+
+**F.**
+
+```python
+while iterations < MAX_ITERATIONS:
+    x_n = get_next_guess(x_n, f, f_prime)
+    prev_guess = x_n
+    if abs(x_n - prev_guess) < THRESHOLD:
+        break
+    iterations += 1
+```
+
+**G.**
+
+```python
+for iterations in range(MAX_ITERATIONS):
+    prev_guess, x_n = x_n, get_next_guess(x_n, f, f_prime)
+    if abs(x_n - prev_guess) > THRESHOLD:
+        break
 ```
