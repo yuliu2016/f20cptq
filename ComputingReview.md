@@ -1,7 +1,5 @@
 ## 1P13 Fall 2020 Computing Review Questions
 
-Questions authored by: peg#9672
-
 
 
 **Question 1**: Consider the following function that takes a string polynomial expression in the form of `ax^c + bx^d + ...` and returns its derivative using the power rule:
@@ -44,6 +42,8 @@ For example, `polynomial_derivative("5x^4 + 3x^3")` will return `"20x^3 + 9x^2"`
 **C.** `polynomial_derivative("x^6 + \n4x^3")`
 **D.** `polynomial_derivative("7x^5 + 6*x^4")`
 **E.** `polynomial_derivative("1.3x^8+5x^0")`
+
+
 
 
 
@@ -154,7 +154,7 @@ return total_moi
 ```python
 i = 0
 total_moi = 0
-while i < len(particles)
+while i <= len(particles)
     mass, dist, angle = particles[i]
     r = math.sin(angle) * dist
     total_moi += mass * r ** 2
@@ -279,7 +279,6 @@ return not (N < 1 or L < 0 or L >= N or ML < -L or ML > L and MS in [-0.5, 0.5])
 
 
 
-
 **Question 6:** All types of sensors, including EMG sensors, vision sensors, and encoders (used to measure amount of rotation in robotic arms) have some sensor noise when used in real life that can mess up the measured values. To mitigate this, a rolling average can be used. Consider the following function that uses a global variable to keep track of the average measurement over the last 10 measurements.
 
 ```python
@@ -389,8 +388,9 @@ What is a correct implementation of the missing code?
 
 ```python
 while iterations < MAX_ITERATIONS:
+    prev_guess = x_n
     x_n = get_next_guess(x_n, f, f_prime)
-    if x_n < THRESHOLD:
+    if abs(x_n - prev_guess) < THRESHOLD:
         break
     iterations += 1
 ```
@@ -399,9 +399,8 @@ while iterations < MAX_ITERATIONS:
 
 ```python
 while iterations < MAX_ITERATIONS:
-    prev_guess = x_n
     x_n = get_next_guess(x_n, f, f_prime)
-    if abs(x_n - prev_guess) < THRESHOLD:
+    if x_n < THRESHOLD:
         break
     iterations += 1
 ```
@@ -457,3 +456,16 @@ for iterations in range(MAX_ITERATIONS):
     if abs(x_n - prev_guess) > THRESHOLD:
         break
 ```
+
+### Answer Key
+
+- Q1: B
+- Q2: E
+- Q3: D
+-  Q4: B
+- Q5: C
+- Q6: E
+- Q7: A
+
+
+
